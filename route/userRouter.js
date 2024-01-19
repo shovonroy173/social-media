@@ -59,6 +59,17 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// get users
+router.get("/", async (req, res) => {
+  try {
+    const userData = await User.find();
+    console.log(userData);
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // get logged user
 router.get("/:id", async (req, res) => {
   try {
@@ -85,7 +96,7 @@ router.get("/search" , async(req , res)=>{
 // get a friend profile
 router.get("/friend/:id" , async(req , res)=>{
     try {
-    const userData = await User.findById({_id : req.params.id});
+    const userData = await User.findById({ _id : req.params.id});
     res.status(200).json(userData);
     } catch (error) {
         console.log(error);
@@ -96,7 +107,7 @@ router.get("/friend/:id" , async(req , res)=>{
 // get close friends of a currentUser
 router.get("/friends/:userId" , async(req , res)=>{
   try {
-    const user = await User.findById({_id : req.params.id});
+    const user = await User.findById({_id : req.params.userId});
     const closeFriends = await Promise.all(
       user.followings.map((id)=>{
         return User.findById({_id:id});
@@ -114,26 +125,34 @@ router.get("/friends/:userId" , async(req , res)=>{
 });
 
 // follow an user
-router.put("follow/:id" , async(req , res)=>{
-  if(!req.params.id === req.body.userId){
+router.put("/follow/:id" , async(req , res)=>{
+  // console.log(req.body.loggedUser.currentUser._id);
+  const loggedUser = req.body.loggedUser.currentUser._id;
+  // res.status(200).json("ok");
+  if(req.params.id !== loggedUser){
    const user = await User.findById({_id:req.params.id});
-   const currentUser = await User.findById({_id:req.body.userId});
-   if(!user.follower.includes(req.body.userId)){
-    await User.findByOne(req.params.id , {
-      $push:{followers:req.body.userId},
-     });
-    //  await User.findByIdAndUpdate(req.params.id , {
-    //   // $push:{"followers":req.body.userId},
-    //   $set:{follower:req.body.userId} , 
-    //  });
-     await User.findone(req.body.id , {
-      $push:{followings:req.params.id},
-     });
-    //  await User.findByIdAndUpdate(req.body.userId , {
-    //   // $push:{"followers":req.body.userId},
-    //   $set:{followings:req.params.id}
-    //  });
-
+   const currentUser = await User.findById({_id:loggedUser});
+   if(!user.follower.includes(loggedUser)){
+    try {
+      await user.updateOne({
+        $push:{follower:loggedUser},
+       });
+      //  await User.findByIdAndUpdate(req.params.id , {
+      //   // $push:{"followers":loggedUser},
+      //   $set:{follower:loggedUser} , 
+      //  });
+       await currentUser.updateOne( {
+        $push:{followings:req.params.id},
+       });
+      //  await User.findByIdAndUpdate(loggedUser , {
+      //   // $push:{"followers":loggedUser},
+      //   $set:{followings:req.params.id}
+      //  });  
+    } catch (error) {
+      res.status(500).json(error);
+    }
+    
+    return res.status(200).json("You started following!")
    }
    else{
     return res.status(403).json('You are already following this person');
@@ -146,15 +165,15 @@ router.put("follow/:id" , async(req , res)=>{
 
 // unfollow an user
 router.put("unfollow/:id" , async(req , res)=>{
-  if(req.params.id !== req.body.userId){
+  if(req.params.id !== loggedUser){
     const user = await User.findById({_id : req.params.id});
-    const currentUser = await User.findById({_id:req.body.userId});
-    if(user.follower.includes(req.body.userId)){
+    const currentUser = await User.findById({_id:loggedUser});
+    if(user.follower.includes(loggedUser)){
       try {
-        await user.findOne({
-          $pull :{follower:req.body.userId}
+        await user.updateOne({
+          $pull :{follower:loggedUser}
         });
-        await currentUser.findOne({
+        await currentUser.updateOne({
           $pull :{followings:req.params.id}
         });
       } catch (error) {

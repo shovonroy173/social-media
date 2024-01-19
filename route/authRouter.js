@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const User = require("../model/User");
 
 router.post("/register" , async(req , res)=>{
+    // console.log("LINE AT 7" , req.body
+    //      , req.body.email , req.body.password);
     try {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(req.body.password , salt);
@@ -16,6 +18,8 @@ router.post("/register" , async(req , res)=>{
             res.status(200).json(user);
         
     } catch (error) {
+    console.log("LINE AT 7" , req.body.name , req.body.email , req.body.password);
+
         res.status(500).json(error);
     }
 });
