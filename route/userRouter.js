@@ -4,16 +4,9 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 //uodate user
 router.put("/:id" , async(req , res)=>{
-    // const user = await User.findById(req.params.id);
-    // const  findUserByGivenPass = await User.find({password : req.body});
-    // if(user._id === findUserByGivenPass._id){
-    //     try {
-    //         const salt = await bcrypt.genSalt(10);
-    //         const hashedPassword = 
-    //     } catch (error) {
-    //         res.status(500).json("Authentication Error!");
-    //     }
-    // }
+    const user = await User.findById(req.params.id);
+    const  findUserByGivenPass = await User.find({password : req.body});
+
     try {
         const user = await User.findByIdAndUpdate(req.params.id , 
             {$set: req.body},
@@ -38,3 +31,16 @@ router.delete("/:id" , async(req , res)=>{
         res.status(500).json(error);
     }
 });
+
+// get a user
+router.get('/:id',async (req,res)=> {
+    try {
+        const userData = await User.findById({_id:  req.params.id});
+        console.log(userData);
+        res.status(200).json(userData);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
+module.exports = router;
