@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./sidebar.css"
 import {RssFeed , Chat , PlayCircleFilledOutlined,
   Group,
@@ -7,9 +7,41 @@ import {RssFeed , Chat , PlayCircleFilledOutlined,
   WorkOutline,
   Event,
   School,} from '@mui/icons-material';
-import{Users} from "../../dummyData";
+
 import Closefriend from '../closefriend/Closefriend';
-const Sidebar = () => {
+import axios from "axios";
+
+const Sidebar = () => { 
+  // const user = useSelector((state)=>(state.user));
+  // console.log("LINE AT 17" , user);
+  // const [closeFriendsData , setCloseFriendsData] = useState({});
+  // useEffect(()=>{
+  //   const getCloseFriend = async()=>{
+      
+  //     try {
+  //       const closeFriends = await axios.get(`http://localhost:5000/api/user/friends/${user.currentUser?._id}`);
+  //       setCloseFriendsData(closeFriends.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getCloseFriend();
+  // } , [user.currentUser._id]);
+
+  const [users , setUsers] = useState([]);
+  useEffect(()=>{
+    const getCloseFriend = async()=>{
+      
+      try {
+        const users = await axios.get(`http://localhost:5000/api/user/`);
+        setUsers(users.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCloseFriend();
+  } , []);
+  // console.log("LINE AT 31"  , users);
   return (
     <div className='sidebar'>
       <div className="sidebarWrapper">
@@ -54,8 +86,8 @@ const Sidebar = () => {
         <button className="sidebarButton">Show More</button>
         <hr className="sidebarHr" />
         <ul className='sidebarFriendList'>
-          {Users.map((u)=>(
-            <Closefriend key={u.id} user={u}/>
+          {users.map((u)=>(
+            <Closefriend key={u._id} user={u}/>
           ))}
         </ul>
       </div>

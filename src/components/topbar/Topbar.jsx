@@ -4,11 +4,34 @@ import PersonIcon from '@mui/icons-material/Person';
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import "./topbar.css";
+import { logOut } from "../../redux/userRedux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 const Topbar = () => {
+  const user = useSelector((state)=>(state.user.currentUser));
+  // console.log( "LINE AT 12" ,user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleClick = ()=>{
+    try {
+      dispatch(logOut());
+      <Navigate to="login"/>
+    } catch (error) {
+      console.log(error);
+    }
+    
+  };
+
+
+  const handleProfile = async()=>{
+    navigate(`/profile/${user._id}`);
+   
+  }
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <span className="logo">Social-media</span>
+        
+        <Link to="/" className="logo"><span  >Social-media</span></Link>
       </div>
       <div className="topbarCenter">
         <div className="searchBar">
@@ -36,8 +59,9 @@ const Topbar = () => {
                 <span className="topbarIconBadge">1</span>
             </div>
         </div>
-        <div>
-          <img src="../../assets/1.jpg" alt="" className="topbarImg"/>
+        <div className="profile">
+          <img src="../../assets/1.jpg" alt="" className="topbarImg" onClick={handleProfile}/>
+          <span className ="logout" onClick={handleClick}>Logout</span>  
         </div>
       </div>
     </div>
