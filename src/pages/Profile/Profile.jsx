@@ -17,7 +17,6 @@ const Profile = () => {
   const isFollowing = loggedUser?.currentUser?.followings?.includes(id);
   console.log("LINE AY 17", isFollowing);
   const [user, setUser] = useState({});
-  const [followText, setFollowText] = useState("");
 
   useEffect(() => {
     const getProfile = async () => {
