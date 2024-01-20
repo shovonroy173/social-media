@@ -152,7 +152,7 @@ router.put("/follow/:id" , async(req , res)=>{
       res.status(500).json(error);
     }
     
-    return res.status(200).json("You started following!")
+    return res.status(200).json(currentUser)
    }
    else{
     return res.status(403).json('You are already following this person');
@@ -164,7 +164,8 @@ router.put("/follow/:id" , async(req , res)=>{
 });
 
 // unfollow an user
-router.put("unfollow/:id" , async(req , res)=>{
+router.put("/unfollow/:id" , async(req , res)=>{
+  const loggedUser = req.body.loggedUser.currentUser._id;
   if(req.params.id !== loggedUser){
     const user = await User.findById({_id : req.params.id});
     const currentUser = await User.findById({_id:loggedUser});
@@ -179,6 +180,8 @@ router.put("unfollow/:id" , async(req , res)=>{
       } catch (error) {
         res.status(500).json(error);
       }
+    return res.status(200).json(currentUser)
+
     }
     else{
       return res.status(403).json("Not followed!")
