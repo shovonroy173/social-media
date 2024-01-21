@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const multer = require("multer");
+const path = require("path");
 
 const authRouter = require("./route/authRouter");
 const userRouter = require("./route/userRouter");
@@ -26,6 +27,8 @@ mongoose
   });
 
 app.use(express.json());
+
+app.use("/uploads" , express.static(path.join(__dirname , "public/uploads")));
 
 const storage = multer.diskStorage({
   destination: (req , file , cb)=>{

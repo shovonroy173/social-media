@@ -63,7 +63,16 @@ router.delete("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const userData = await User.find();
-    console.log(userData);
+    // console.log(userData);
+    res.status(200).json(userData);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+router.get("/:id", async (req, res) => {
+  try {
+    const userData = await User.findById({_id:req.params.id});
+    // console.log(userData);
     res.status(200).json(userData);
   } catch (error) {
     res.status(500).json(error);
@@ -74,7 +83,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const userData = await User.findById({ _id: req.params.id });
-    console.log(userData);
+    // console.log(userData);
     res.status(200).json(userData);
   } catch (error) {
     res.status(500).json(error);
@@ -83,14 +92,18 @@ router.get("/:id", async (req, res) => {
 
 // search a user
 router.get("/search" , async(req , res)=>{
-    try {
-        const query = req.query.text;
-        const user = await User.find({name:{$regex:query , options:"i"}});
-        re.status(200).json(user);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json(error);
-    }
+  // const query = req.query.q;
+  // console.log(query);
+  res.status(200).json("ok");
+    // try {
+    //     const query = req.query.q;
+    //     console.log(query);
+    //     const user = await User.find({name:{$regex:query , options:"i"}});
+    //     re.status(200).json(user);
+    // } catch (error) {
+    //     console.log(error);
+    //     res.status(500).json(error);
+    // }
 });
 
 // get a friend profile
