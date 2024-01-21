@@ -59,8 +59,8 @@ const Profile = () => {
               <img src="/assets/1.jpg" className="profileUserImg" alt="" />
             </div>
             <div className="profileInfo">
-              <h4 className="profileInfoName">{user.name}</h4>
-              <span className="profileInfoDesc">{user.desc}</span>
+              <h4 className="profileInfoName">{user?.name}</h4>
+              <span className="profileInfoDesc">{user?.desc}</span>
             </div>
           </div>
           {id !== loggedUser.currentUser._id && (

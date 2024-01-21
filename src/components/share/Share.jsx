@@ -1,6 +1,6 @@
 import React, {  useState } from "react";
 import "./share.css";
-import { AddToPhotos, Label, Room, EmojiEmotions } from "@mui/icons-material";
+import { AddToPhotos, Label, Room, EmojiEmotions , Cancel } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -10,18 +10,18 @@ const Share = () => {
   // console.log("LINE AT 9", userId);
   const [desc, setdesc] = useState("");
   const [img, setImg] = useState("");
-  const [file, setFile] = useState([]);
-  console.log("LINE AT 13", file);
+  const [file, setFile] = useState(null);
+  // console.log("LINE AT 13", file);
 
   const handleClick = async (e) => {
     e.preventDefault();
     if (file) {
       const data = new FormData();
-      const fileName = Date.now() + file.name;
+      const fileName = Date.now()+file.name;
       data.append("fileName", fileName);
       data.append("file", file);
       setImg(fileName);
-      console.log(img);
+      // console.log(img);
       try {
         axios.post("http://localhost:5000/upload", data);
       } catch (error) {
@@ -55,7 +55,14 @@ const Share = () => {
           />
         </div>
         <hr className="shareHr" />
-        <div className="shareBottom">
+        {file && (
+          <div className="shareImgContainer">
+            <img className="shareImg" src={URL.createObjectURL(file)} alt="" />
+            <Cancel className="shareCancelImg" onClick={() => setFile(null)} />
+          </div>
+        )}
+        
+        <form className="shareBottom" onSubmit={handleClick}>
           <div className="shareOptions">
             <label htmlFor="file" className="shareOption">
               <AddToPhotos htmlColor="tomato" className="shareIcon" />
@@ -82,10 +89,10 @@ const Share = () => {
               <span className="shareOptionText">Emotions</span>
             </div>
           </div>
-          <button className="shareButton" onClick={handleClick}>
+          <button className="shareButton" type="submit">
             Share
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

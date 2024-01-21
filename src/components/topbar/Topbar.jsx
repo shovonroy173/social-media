@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -7,9 +7,11 @@ import "./topbar.css";
 import { logOut } from "../../redux/userRedux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 const Topbar = () => {
+  const [searchText , setSearch] = useState("");
   const user = useSelector((state)=>(state.user.currentUser));
-  // console.log( "LINE AT 12" ,user);
+  console.log( "LINE AT 12" ,searchText);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClick = ()=>{
@@ -26,6 +28,18 @@ const Topbar = () => {
   const handleProfile = async()=>{
     navigate(`/profile/${user._id}`);
    
+  };
+  const handleSearch = async()=>{
+    try {
+      const res = await axios.get(`http://localhost:5000/api/user/search`);
+      const userData = res.data;
+      console.log(userData);
+    // navigate(`/profile/${userData._id}`);
+
+    } catch (error) {
+      console.log(error);
+    }
+    
   }
   return (
     <div className="topbarContainer">
@@ -35,8 +49,8 @@ const Topbar = () => {
       </div>
       <div className="topbarCenter">
         <div className="searchBar">
-        <SearchIcon className="searchIcon"/>
-          <input type="text" placeholder="Search people or post..." className="searchInput"/>
+        <SearchIcon className="searchIcon" onClick={handleSearch}/>
+          <input type="text" placeholder="Search people or post..." className="searchInput" onChange={((e)=>setSearch(e.target.value))} />
           
         </div>
       </div>

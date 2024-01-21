@@ -1,5 +1,6 @@
 import axios from "axios";
 import { followFailure, followStart, followSuccess, loginFailure, loginStart, loginSuccess, registerFailure, registerStart, registerSuccess, unfollowFailure, unfollowStart, unfollowSuccess } from "./userRedux";
+import { postFailure, postStart, postSuccess } from "./postRedux";
 
 export const login = async (dispatch, user) => {
   // console.log(user);
@@ -34,7 +35,7 @@ export const follow = async (dispatch , id , loggedUser) => {
       `http://localhost:5000/api/user/follow/${id}`,
       { loggedUser }
     );
-    console.log(res.data);
+    // console.log(res.data);
     dispatch(followSuccess(res.data));
   } catch (error) {
     console.log(error);
@@ -49,10 +50,25 @@ export const unfollow = async (dispatch , id , loggedUser) => {
       `http://localhost:5000/api/user/unfollow/${id}`,
       { loggedUser }
     );
-    console.log(res.data);
+    // console.log(res.data);
     dispatch(unfollowSuccess(res.data));
   } catch (error) {
     console.log(error);
     dispatch(unfollowFailure());
+  }
+};
+
+export const like = async (dispatch , id , loggedUserId) => {
+  dispatch(postStart());
+  try {
+    const res = await axios.put(
+      `http://localhost:5000/api/post/like/${id}`,
+      { loggedUserId }
+    );
+    console.log(res.data);
+    dispatch(postSuccess(res.data));
+  } catch (error) {
+    console.log(error);
+    dispatch(postFailure());
   }
 };

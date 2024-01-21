@@ -21,7 +21,7 @@ const postSlice = createSlice({
             state.isError = true;
         } ,
         
-    }
+    } 
 });
 
 export const {postStart , postSuccess , postFailure} = postSlice.actions;

@@ -6,10 +6,10 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 const Feed = () => {
   const [posts , setPosts] = useState([]);
-  console.log("LINE AT 9" , posts);
+  // console.log("LINE AT 9" , posts);
   const loggedUser = useSelector((state) => state.user);
   const userId = loggedUser?.currentUser?._id;
-  console.log("LINE AT 12" , userId);
+  // console.log("LINE AT 12" , userId);
 
   useEffect(()=>{
     const getPosts = async()=>{
