@@ -26,16 +26,14 @@ export const register = async(dispatch , user)=>{
   }
 };
 
-
-
-export const follow = async (dispatch , id , loggedUser) => {
+export const follow = async (dispatch , id , userId) => {
+  console.log(id , userId);
   dispatch(followStart());
   try {
     const res = await axios.put(
       `http://localhost:5000/api/user/follow/${id}`,
-      { loggedUser }
+      { userId }
     );
-    // console.log(res.data);
     dispatch(followSuccess(res.data));
   } catch (error) {
     console.log(error);
@@ -59,13 +57,14 @@ export const unfollow = async (dispatch , id , loggedUser) => {
 };
 
 export const like = async (dispatch , id , loggedUserId) => {
+  // console.log("LINE AT 62" , loggedUserId);
   dispatch(postStart());
   try {
     const res = await axios.put(
       `http://localhost:5000/api/post/like/${id}`,
       { loggedUserId }
     );
-    console.log(res.data);
+    // console.log(res.data);
     dispatch(postSuccess(res.data));
   } catch (error) {
     console.log(error);
