@@ -32,6 +32,7 @@ export default function Register() {
             <input placeholder="Email" className="loginInput" onChange={((e)=>(setEmail(e.target.value)))} />
             <input placeholder="Password" type="password" className="loginInput" onChange={((e)=>(setPassword(e.target.value)))} />
             <input placeholder="Confirm Password" className="loginInput" type="password" onChange={((e)=>(setPasswordAgain(e.target.value)))} />
+            <input placeholder="Confirm Password" className="loginInput" type="password" onChange={((e)=>(setPasswordAgain(e.target.value)))} />
             <button className="loginButton" onClick={handleClick}>Sign Up</button>
 
           </div>
