@@ -48,7 +48,25 @@
   .searchInput:focus {
     outline: none;
   }
-  
+  .searchedUserBox{
+    position: absolute;
+    top: 50px;
+    background-color: rgba(88, 88, 87, 0.436);
+    padding: 0 5px;
+    border-radius: 5px;
+  }
+  .searchedUser{
+    display: flex;
+    align-items: center;
+    cursor: default;
+  }
+  .searchedUserImg{
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    object-fit: cover;
+    margin-right: 8px;
+  }
   .topbarRight {
     flex: 4;
     display: flex;
