@@ -10,43 +10,45 @@ import { useDispatch, useSelector } from "react-redux";
 import { follow, unfollow } from "../../redux/apiCalls";
 
 const Profile = () => {
-  const loggedUser = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
 
   const id = useParams().id;
-  console.log("LINE AT 15", loggedUser);
-  const isFollowing = loggedUser?.currentUser?.followings?.includes(id);
-  console.log("LINE AY 17", isFollowing);
+  const userId = currentUser._id;
   const [user, setUser] = useState({});
+  const [isFollowing, setIsFollowing] = useState(Boolean);
+
+  console.log(id);
 
   useEffect(() => {
     const getProfile = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/user/${id}`);
+        console.log(res.data);
         setUser(res.data);
+        setIsFollowing(res.data?.follower.includes(userId))
       } catch (error) {
         console.log(error);
       }
     };
     getProfile();
-  }, [id]);
+  }, [id , userId]);
+  console.log("LINE AT 33", user);
+
+  // const isFollowing = user && user?.follower.includes(userId);
+
+  console.log("LINE AT 19" , isFollowing);
   // console.log(LINE AT 27 , user);
   const dispatch = useDispatch();
+
   const handleClick = async () => {
     try {
-      follow(dispatch, id, loggedUser);
+      follow(dispatch, id, userId);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleClickUnfollow = async () => {
-    try {
-     unfollow(dispatch , id , loggedUser);
-      // setFollowText(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <>
       <Topbar />
@@ -63,29 +65,14 @@ const Profile = () => {
               <span className="profileInfoDesc">{user?.desc}</span>
             </div>
           </div>
-          {id !== loggedUser.currentUser._id && (
+          {id !== userId && (
             <>
-              <>
-                {" "}
-                {!isFollowing && (
-                  <button
+               <button
                     className="btn btn-intermediate"
                     onClick={handleClick}
                   >
                     {isFollowing ? "Following" : "Unfollowing"}
                   </button>
-                )}
-              </>
-              <>
-                {isFollowing && (
-                  <button
-                    className="btn btn-intermediate"
-                    onClick={handleClickUnfollow}
-                  >
-                    {!isFollowing ? "Unfollowing" : "Following"}
-                  </button>
-                )}
-              </>
             </>
           )}
 
