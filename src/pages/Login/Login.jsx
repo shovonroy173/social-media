@@ -37,6 +37,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
+              type="password"
               placeholder="Password"
               className="loginInput"
               onChange={(e) => setPassword(e.target.value)}
@@ -44,9 +45,8 @@ export default function Login() {
             <button className="loginButton" onClick={handleClick}>
               Log In
             </button>
-            <span className="loginForgot">Forgot Password?</span>
             <Link to="/register">
-              <button className="loginRegisterButton" >
+              <button className="loginRegisterButton">
                 Create a New Account
               </button>
             </Link>
