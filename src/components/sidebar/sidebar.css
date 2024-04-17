@@ -18,28 +18,6 @@
     padding: 20px;
 }
 
-.sidebarList{
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.sidebarListItem{
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.sidebarIcon{
-    margin-right: 10px;
-}
-
-.sidebarButton{
-    border: none;
-    border-radius: 15px;
-    padding: 10px;
-    font-weight: 800;
-}
 
 
 .sidebarHr{
@@ -52,3 +30,29 @@
     margin: 0;
     list-style: none;
 }
+
+.sidebarFriendsText{
+    color: #1877f2;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.birthdayContainer{
+    position: relative;
+}
+
+.birthdayImg{
+    width: 200px;
+    height: 200px;
+    margin-bottom: 30px;
+}
+
+.birthdayUsers{
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
