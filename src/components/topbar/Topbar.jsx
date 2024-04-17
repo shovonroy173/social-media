@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -29,29 +29,49 @@ const Topbar = () => {
     navigate(`/profile/${user._id}`);
    
   };
-  const handleSearch = async()=>{
-    try {
-      const res = await axios.get(`http://localhost:5000/api/user/search`);
-      const userData = res.data;
-      console.log(userData);
-    // navigate(`/profile/${userData._id}`);
 
+  const [users, setUsers] = useState([]);
+  const searchedUser = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/user/find/users?q=${searchText}`
+      );
+      setUsers(res.data);
     } catch (error) {
       console.log(error);
     }
-    
-  }
+  };
+  useEffect(() => {
+    searchText && searchedUser();
+  }, [searchText]);
+
+  const handleSearch = () => {
+    searchedUser();
+  };
+console.log(users);
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
         
-        <Link to="/" className="logo"><span  >Social-media</span></Link>
+        <Link to="/" className="logo"><span>Social-media</span></Link>
       </div>
       <div className="topbarCenter">
         <div className="searchBar">
         <SearchIcon className="searchIcon" onClick={handleSearch}/>
           <input type="text" placeholder="Search people or post..." className="searchInput" onChange={((e)=>setSearch(e.target.value))} />
-          
+          {(searchText && users) &&<div className="searchedUserBox">
+            {
+              users.map((item , index)=>(
+                <div className="searchedUser" onClick={()=> navigate(`/profile/${item._id}`)} key={index}>
+                  <img src="http://localhost:3000/assets/1.jpg" alt="img" className="searchedUserImg"/>
+                  <div>
+                  <p>{item?.name}</p>
+                  <p>{item?.city}</p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>}
         </div>
       </div>
       <div className="topbarRight">
