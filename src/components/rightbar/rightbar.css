@@ -6,7 +6,7 @@
 }
 
 .rightbarWrapper{
-    padding: 20px;
+    padding: 0 20px;
 }
 
 .birthdayContainer{
@@ -29,12 +29,21 @@
 }
 
 .rightbarAd{
-    margin-top: 20px;
+    /* margin-top: 20px; */
     border-radius: 5px;
-     width: 100%;
+     /* width: 100%;
     max-height: 300px;
-    object-fit: contain;
+    object-fit: contain; */
+    width: 100%;
+    height: 300px;
+    border-radius: 5px;
+    object-fit: cover;
 
+}
+
+.rightbarAdText{
+  font-size: 14px;
+  color: #6c6c6c;
 }
 
 .rightbarHr{
