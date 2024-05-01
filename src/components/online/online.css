@@ -1,6 +1,5 @@
 .rightbarFriend{
-    display: flex;
-    align-items: center;
+    display: flex; 
     margin: 15px;
 }
 
