@@ -1,15 +1,31 @@
-import React from 'react';
+import React from "react";
 import "./online.css";
-const Online = ({user}) => {
-  return (
-    <li className="rightbarFriend">
-    <div className="rightbarProfileImgContainer">
-      <img className="rightbarProfileImg" src="/assets/1.jpg" alt="" />
-      <span className="rightbarOnline"></span>
-    </div>
-    <span className="rightbarUsername">{user.username}</span>
-  </li>
-  )
-}
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+const Online = ({ user }) => {
+  const loggedUser = useSelector((state) => state.user);
 
-export default Online
+  return (
+    <>
+      {loggedUser.currentUser._id === user._id ? null : (
+        <Link to={`/profile/${user._id}`} style={{"color":"inherit" , "textDecoration":"none"}}>
+          <li>
+            <div className="rightbarFriend">
+              <div className="rightbarProfileImgContainer">
+                <img
+                  className="rightbarProfileImg"
+                  src="/assets/1.jpg"
+                  alt=""
+                />
+                <span className="rightbarOnline"></span>
+              </div>
+              <div className="rightbarUsername">{user?.name}</div>
+            </div>
+          </li>
+        </Link>
+      )}
+    </>
+  );
+};
+
+export default Online;
